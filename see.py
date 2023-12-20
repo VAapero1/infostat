@@ -3,11 +3,10 @@ import json
 import plotly.express as px
 import plotly.graph_objects as go
 import requests
-from config_setting import settings
 import os
 
-vacancies = requests.get(settings['OLIVIABI4_API_HOST'] + 'v1/vacancies/list', headers={'Authorization': 'Bearer ' + settings['OLIVIA_API_KEY']}).json()['data']['vacancies']
-vacancies = {row['id']: row['name'] for row in vacancies} 
+with open('vac.json', 'r') as file:
+    vacancies = json.loads(file.read())
 page = st.selectbox("Pick me", ["Выберите вакансию"] + list(vacancies.values()))
 if page != "Выберите вакансию":
     vacancy_id = next(key for key, value in vacancies.items() if value == page)
